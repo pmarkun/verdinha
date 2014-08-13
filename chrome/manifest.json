@@ -10,7 +10,7 @@
 	"css": [ "styles.css"],
   	"js": [ "jquery-2.1.0.min.js", "jquery.highlight.js", "names.js", "script.js" ],
     "matches": [ "http://*/*", "https://*/*" ],
-    "run_at": "document_start"
+    "run_at": "document_idle"
    } ],
   "manifest_version": 2
 }

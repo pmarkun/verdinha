@@ -10,15 +10,15 @@ function rank(data, count) {
   return top10;
 }
 
-function checaNomes(texto, nomes) {
-  var matches = {};
-  $.each(nomes, function (entry, value) {
-    match = (new RegExp(entry)).test(texto);
-    if (match) {
-      matches[entry] = value;
-    }
+function dummyRender(data) {
+  var top10 = rank(data, 5);
+  var dummy = $("<div/>")
+  dummy.append("<h2>"+nome+ "- 2010</h2><hr>");
+  top10.forEach(function (d) {
+    dummy.append('<p><span style="float:left">'+d['nome'] + '</span><span style="float:right">' + d['valor'] + '</span></p>');
   });
-  return matches;
+  dummy.append('<p><b><span style="float:left">Total</span><span style="float:right">' + data['total'] + '</span></b><p>')
+  return dummy
 }
 
 function highlight(matches) {
@@ -38,13 +38,7 @@ function highlight(matches) {
         continueTooltip();
 
         $.getJSON("http://127.0.0.1:5000/busca/"+nome, function (data) {
-          var top10 = rank(data, 5);
-          var dummy = $("<div/>")
-          dummy.append("<h2>"+nome+ "- 2010</h2><hr>");
-          top10.forEach(function (d) {
-            dummy.append('<p><span style="float:left">'+d['nome'] + '</span><span style="float:right">' + d['valor'] + '</span></p>');
-          });
-          dummy.append('<p><b><span style="float:left">Total</span><span style="float:right">' + data['total'] + '</span></b><p>')
+          var dummy = dummyRender(data);
           origin.tooltipster('content', dummy);
         });
       }

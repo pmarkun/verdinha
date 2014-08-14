@@ -13,7 +13,7 @@ function rank(data, count) {
 function dummyRender(data) {
   var top10 = rank(data, 5);
   var dummy = $("<div/>")
-  dummy.append("<h2>"+nome+ "- 2010</h2><hr>");
+  dummy.append("<h2>"+data.nome+ "- 2010</h2><hr>");
   top10.forEach(function (d) {
     dummy.append('<p><span style="float:left">'+d['nome'] + '</span><span style="float:right">' + d['valor'] + '</span></p>');
   });

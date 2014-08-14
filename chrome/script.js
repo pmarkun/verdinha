@@ -41,18 +41,22 @@ jQuery(document).ready(function($) {
     var nome = $(this).attr("data-highlight");
     $(this).tooltipster({
       content : 'Loading...',
+      theme: 'tooltipster-verdinha',
+      
       functionBefore: function(origin, continueTooltip) {
         continueTooltip();
 
         $.getJSON("http://127.0.0.1:5000/busca/"+nome, function (data) {
           var top10 = rank(data);
-          var dummy = $("<div/>")
-          dummy.append("<h2>"+nome+ "- 2010</h2><hr>");
+          var dummy = $('<table>')
+          dummy.append('<tr><th colspan="2">'+nome+ ' - 2010</th></tr>');
+         
           top10.forEach(function (d) {
-            dummy.append('<p><span style="float:left">'+d['nome'] + '</span><span style="float:right">' + d['valor'] + '</span></p>');
+            dummy.append('<tr><td>'+d['nome'] + '</td><td>' + d['valor'] + '</td></tr');
           });
+          dummy.append('</table>');
           origin.tooltipster('content', dummy);
-        });
+        //});
       }
     });
   });

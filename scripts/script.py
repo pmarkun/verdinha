@@ -60,3 +60,4 @@ def generateDoacoes():
 			r[_id]['doacoes'][d['CPF/CNPJ do doador']]['valor'] += float(d['Valor receita'].replace(',','.'))
 
 	mongo_save(r)
+generateDoacoes()

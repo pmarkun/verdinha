@@ -4,9 +4,11 @@
 import csvkit, json
 
 def generateCand():
+	'''Gera names.json a partir dos arquivos de candidatura de 2014 na pasta.
+	   http://agencia.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2014.zip
+	'''
 	lista = {}
 	ufs = ["AC", "AL", "AM", "AP",  "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO","BR"]
-
 	for uf in ufs:
 		print 'Getting '+uf
 		cand = open("../raw/consulta_cand_2014_"+uf+".txt", 'r')
@@ -26,6 +28,7 @@ def generateCand():
 
 
 def mongo_save(itens, clear=False):
+	'''Salva um dicionario no mongo'''
     from pymongo import MongoClient
     client = MongoClient()
     db = client.verdinha
@@ -35,8 +38,11 @@ def mongo_save(itens, clear=False):
     for i in itens:
         col.update({'_id' : i}, itens[i], upsert=True)
 
-def generateDoacoes():
-	doacoes_raw = open("../raw/ReceitasCandidatos.txt", 'r')
+def generateDoacoes(arquivo):
+	'''Utiliza os arquivos ReceitaCand.txt das Prestações de Contas de 2010
+	   http://agencia.tse.jus.br/estatistica/sead/odsele/prestacao_contas/prestacao_contas_2010.zip
+	'''
+	doacoes_raw = open(arquivo, 'r')
 	doacoes_raw = csvkit.DictReader(doacoes_raw, encoding='iso-8859-1', delimiter=';')
 
 	r = {}
@@ -60,4 +66,3 @@ def generateDoacoes():
 			r[_id]['doacoes'][d['CPF/CNPJ do doador']]['valor'] += float(d['Valor receita'].replace(',','.'))
 
 	mongo_save(r)
-generateDoacoes()

@@ -7,19 +7,13 @@
     "http://*/*"
   ],
   "content_scripts": [ {
-<<<<<<< HEAD
 	"css": [ "tooltipster.css", "tooltipster-verdinha.css", "styles.css"],
-  	"js": [ "jquery-2.1.0.min.js", "jquery.tooltipster.min.js", "jquery.highlight.js", "names.js", "script.js" ],
-    "matches": [ "http://*/*", "https://*/*" ],
-=======
-	"css": [ "tooltipster.css", "styles.css"],
   	"js": [ "patch-worker.js", "jquery-2.1.0.min.js", "jquery.tooltipster.min.js", "jquery.highlight.js", "names.js", "script.js" ],
     "matches": [ "http://*/*" ],
->>>>>>> upstream/master
     "run_at": "document_idle"
    } ],
    "web_accessible_resources": [
         "worker.js"
    ],
-  "manifest_version": 2
+  "manifest_version": 3
 }

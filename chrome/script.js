@@ -34,7 +34,8 @@ function highlight(matches) {
   $('.highlight-1337').each(function() {
     var nome = $(this).attr("data-highlight");
     $(this).tooltipster({
-      content : 'Loading...',
+      content : $('<table><tr><th>Loading...</th></tr></table>'),
+      
       theme: 'tooltipster-verdinha',
       
       functionBefore: function(origin, continueTooltip) {

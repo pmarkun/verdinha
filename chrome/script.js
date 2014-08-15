@@ -12,12 +12,13 @@ function rank(data, count) {
 
 function dummyRender(data) {
   var top10 = rank(data, 5);
-  var dummy = $("<div/>")
-  dummy.append("<h2>"+data.nome+ "- 2010</h2><hr>");
+  var dummy = $('<table>')
+  dummy.append('<tr><th colspan="2">' + data.nome + ' - 2010</th></tr>');
   top10.forEach(function (d) {
-    dummy.append('<p><span style="float:left">'+d['nome'] + '</span><span style="float:right">' + d['valor'] + '</span></p>');
+    dummy.append('<tr><td>'+d['nome'] + '</td><td>' + d['valor'] + '</td></tr>');
   });
-  dummy.append('<p><b><span style="float:left">Total</span><span style="float:right">' + data['total'] + '</span></b><p>')
+  dummy.append('<tr><td>Total: </td><td>' + data['total'] + '</td></tr>')
+  dummy.append('</table>');
   return dummy
 }
 
@@ -34,6 +35,8 @@ function highlight(matches) {
     var nome = $(this).attr("data-highlight");
     $(this).tooltipster({
       content : 'Loading...',
+      theme: 'tooltipster-verdinha',
+      
       functionBefore: function(origin, continueTooltip) {
         continueTooltip();
 

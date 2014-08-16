@@ -17,7 +17,7 @@ function dummyRender(data) {
   top10.forEach(function (d) {
     dummy.append('<tr><td>'+d['nome'] + '</td><td>' + d['valor'] + '</td></tr>');
   });
-  dummy.append('<tr><td>Total: </td><td>' + data['total'] + '</td></tr>')
+  dummy.append('<tr><th>Total: </th><th>' + data['total'] + '</th></tr>')
   dummy.append('</table>');
   return dummy
 }
@@ -34,13 +34,14 @@ function highlight(matches) {
   $('.highlight-1337').each(function() {
     var nome = $(this).attr("data-highlight");
     $(this).tooltipster({
-      content : 'Loading...',
+      content : $('<table><tr><th>Loading...</th></tr></table>'),
+      
       theme: 'tooltipster-verdinha',
       
       functionBefore: function(origin, continueTooltip) {
         continueTooltip();
 
-        $.getJSON("http://127.0.0.1:5000/busca/"+nome, function (data) {
+       $.getJSON("http://127.0.0.1:5000/busca/"+nome, function (data) {
           var dummy = dummyRender(data);
           origin.tooltipster('content', dummy);
         });

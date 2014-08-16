@@ -41,26 +41,10 @@ function highlight(matches) {
       functionBefore: function(origin, continueTooltip) {
         continueTooltip();
 
-       // $.getJSON("http://127.0.0.1:5000/busca/"+nome, function (data) {
-        // dummy data
-        var data = { "nome": "DILMA ROUSSEF",
-            "doacoes": [
-            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
-            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
-            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
-            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
-            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
-            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
-            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
-            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
-            {"nome" : "VOTORANTIM", "valor" : "100000000.23"}
-            ], 
-            "total" : "102032333.23"
-        };
-        
+       $.getJSON("http://127.0.0.1:5000/busca/"+nome, function (data) {
           var dummy = dummyRender(data);
           origin.tooltipster('content', dummy);
-        //});
+        });
       }
     });
   });

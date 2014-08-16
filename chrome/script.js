@@ -17,7 +17,7 @@ function dummyRender(data) {
   top10.forEach(function (d) {
     dummy.append('<tr><td>'+d['nome'] + '</td><td>' + d['valor'] + '</td></tr>');
   });
-  dummy.append('<tr><td>Total: </td><td>' + data['total'] + '</td></tr>')
+  dummy.append('<tr><th>Total: </th><th>' + data['total'] + '</th></tr>')
   dummy.append('</table>');
   return dummy
 }
@@ -41,10 +41,26 @@ function highlight(matches) {
       functionBefore: function(origin, continueTooltip) {
         continueTooltip();
 
-        $.getJSON("http://127.0.0.1:5000/busca/"+nome, function (data) {
+       // $.getJSON("http://127.0.0.1:5000/busca/"+nome, function (data) {
+        // dummy data
+        var data = { "nome": "DILMA ROUSSEF",
+            "doacoes": [
+            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
+            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
+            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
+            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
+            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
+            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
+            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
+            {"nome" : "VOTORANTIM", "valor" : "100000000.23"},
+            {"nome" : "VOTORANTIM", "valor" : "100000000.23"}
+            ], 
+            "total" : "102032333.23"
+        };
+        
           var dummy = dummyRender(data);
           origin.tooltipster('content', dummy);
-        });
+        //});
       }
     });
   });

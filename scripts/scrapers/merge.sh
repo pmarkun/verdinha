@@ -1,6 +1,9 @@
+# Da um merge nos arquivos
+# Formato merge.sh path/arquivos/*.ext destino.ext
+
 FIRST=
 
-for FILE in ../../raw/prestacao2014/comites/*.csv
+for FILE in $1
 do
         exec 5<"$FILE" # Open file
         read LINE <&5 # Read first line
@@ -10,4 +13,4 @@ do
         cat <&5 # Print the rest directly to standard output
         exec 5<&- # Close file
         # Redirect stdout for this section into file.out
-done > ../../raw/prestacao-comites2014.csv
+done > $2

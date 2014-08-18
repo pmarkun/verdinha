@@ -1,0 +1,11 @@
+<table>
+  <tr>
+    <th>{{data.nome}}</th>
+    <th>2010</th>
+  </tr>
+  <tr><th>Doações de campanha</th><th>R$ mil</th></tr>
+  {% for d in data.doacoes %}
+    <tr><td>{{d[1].nome}}</td><td>{{(d[1].valor/1000)|round|int}}</td></tr>
+  {% endfor %}
+    <tr><th>Total: </th><th>{{(data.total/1000)|round|int}}</th></tr>
+</table>

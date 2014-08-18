@@ -2,7 +2,7 @@
 	border-radius: 5px;
 	background: #259b24;
 	box-shadow: 0px 1px 1px rgba(0,0,0,0.65);
-	color: rgba(0, 0, 0, 1);
+	color: #333;
 }
 .tooltipster-verdinha .tooltipster-content {
 	font-family: sans-serif;
@@ -10,13 +10,16 @@
 	line-height: 16px;
 }
 
-.tooltipster-verdinha table { border-collapse: collapse;}
+
+.tooltipster-verdinha table { border-collapse: collapse; min-width: 350px; max-width: 350px}
+
+/* dados do candidato  */
+.tooltipster-verdinha tr:first-child th { background: transparent; font-size: 16px; }
 
 /* cabeçalho e footer */
-.tooltipster-verdinha th { background: #259b24; color:#fff; padding: 16px 10px; font-size: 16px;  }
+.tooltipster-verdinha th { background: #42BD41; color:#fff; padding: 16px 10px; font-size: 14px; font-weight: bold; text-align: left; }
 
 /* doações */
-.tooltipster-verdinha td { padding: 12px; color: rgba(0, 0, 0, 0.85); }
-.tooltipster-verdinha tr td:nth-child(2) { text-align: right; }
-.tooltipster-verdinha tr:nth-child(even) td { background: #fff; }
-.tooltipster-verdinha tr:nth-child(odd) td { background: #eceff1; }
+.tooltipster-verdinha td { padding: 4px 10px; height: 42px; box-sizing: border-box; vertical-align: middle;}
+.tooltipster-verdinha tr td:last-child, .tooltipster-verdinha tr th:last-child { text-align: right; }
+.tooltipster-verdinha tr td { background: #fff; border-bottom: 1px solid #f0f0f0; }

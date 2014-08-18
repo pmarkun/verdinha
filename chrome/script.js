@@ -10,14 +10,21 @@ function rank(data, count) {
   return top10;
 }
 
+function fnum(num) {
+    // tira as centenas e centavos
+    num = num.toFixed()
+    return num.slice(0, num.length-3);
+}
+
 function dummyRender(data) {
   var top10 = rank(data, 5);
   var dummy = $('<table>')
-  dummy.append('<tr><th colspan="2">' + data.nome + ' - 2010</th></tr>');
+  dummy.append('<tr><th>' + data.nome + '</th><th>2010</th></tr>');
+  dummy.append('<tr><th>Doações de campanha</th><th>R$ mil</th></tr>');
   top10.forEach(function (d) {
-    dummy.append('<tr><td>'+d['nome'] + '</td><td>' + d['valor'] + '</td></tr>');
+    dummy.append('<tr><td>'+d['nome'] + '</td><td>' + fnum(+d['valor']) + '</td></tr>');
   });
-  dummy.append('<tr><th>Total: </th><th>' + data['total'] + '</th></tr>')
+  dummy.append('<tr><th>Total: </th><th>' + fnum(+data['total']) + '</th></tr>')
   dummy.append('</table>');
   return dummy
 }
@@ -34,7 +41,7 @@ function highlight(matches) {
   $('.highlight-1337').each(function() {
     var nome = $(this).attr("data-highlight");
     $(this).tooltipster({
-      content : $('<table><tr><th>Loading...</th></tr></table>'),
+      content : $('<table><tr><th>Loading...</th><th> </th></tr></table>'),
       
       theme: 'tooltipster-verdinha',
       

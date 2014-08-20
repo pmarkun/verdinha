@@ -4,22 +4,54 @@
 	box-shadow: 0px 1px 1px rgba(0,0,0,0.65);
 	color: #333;
 }
+/* container do tooltip */
 .tooltipster-verdinha .tooltipster-content {
 	font-family: sans-serif;
 	font-size: 12px;
 	line-height: 16px;
 }
 
+/* cabeçalho do tooltip */
+.tooltipster-verdinha h2 {
+	text-align: center;
+	color:#fff;
+	border-bottom: 1px solid #42BD41;
+	padding: 16px; margin: 0;
+}
 
-.tooltipster-verdinha table { border-collapse: collapse; min-width: 350px; max-width: 350px}
+/* foto do político */
+.tooltipster-verdinha .mugshot {
+	width: 160px;
+	height: 160px;
+	border-radius: 80px;
+	border: 1px solid rgba(0,0,0,.25);
+	overflow: hidden;
+	position: absolute;
+	top: 40px;
+	left: 269px;
+}
 
-/* dados do candidato  */
-.tooltipster-verdinha tr:first-child th { background: transparent; font-size: 16px; }
+.tooltipster-verdinha .mugshot img { margin-top: -32px; }
+
+.tooltipster-verdinha .e2010, .tooltipster-verdinha .e2014 { float: left; position: relative; z-index: -1; }
+
+.tooltipster-verdinha table { border-collapse: collapse; min-width: 350px; max-width: 350px; margin-top: 140px;}
 
 /* cabeçalho e footer */
-.tooltipster-verdinha th { background: #42BD41; color:#fff; padding: 16px 10px; font-size: 14px; font-weight: bold; text-align: left; }
+.tooltipster-verdinha th { color:#fff; padding: 16px 10px; font-size: 14px; font-weight: bold; text-align: left; }
 
 /* doações */
 .tooltipster-verdinha td { padding: 4px 10px; height: 42px; box-sizing: border-box; vertical-align: middle;}
 .tooltipster-verdinha tr td:last-child, .tooltipster-verdinha tr th:last-child { text-align: right; }
-.tooltipster-verdinha tr td { background: #fff; border-bottom: 1px solid #f0f0f0; }
+.tooltipster-verdinha td { background: #fff; border-bottom: 1px solid #ddd; }
+
+/* Eleições 2010  */
+.tooltipster-verdinha .e2010 { background: #222; }
+.tooltipster-verdinha .e2010 th { background: #444; }
+.tooltipster-verdinha .e2010 td { background: #f0f0f0; }
+
+/* Eleições 2014  */
+.tooltipster-verdinha .e2014 th { background: #42BD41; }
+.tooltipster-verdinha .e2014 td { background: #fff; }
+.tooltipster-verdinha .e2014 tr th:first-child { border-left: 1px solid #444; }
+.tooltipster-verdinha .e2014 tr td:first-child { border-left: 1px solid #ddd; }

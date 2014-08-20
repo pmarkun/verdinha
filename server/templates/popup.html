@@ -1,15 +1,3 @@
-<table>
-  <tr>
-    <th></th>
-    <th>2010</th>
-  </tr>
-  <tr><th>Doações de campanha</th><th>R$ mil</th></tr>
-  {% for d in data.doacoes %}
-    <tr><td>{{d[1].nome}}</td><td>{{(d[1].valor/1000)|round|int}}</td></tr>
-  {% endfor %}
-    <tr><th>Total: </th><th>{{(data.total/1000)|round|int}}</th></tr>
-</table>
-
 <h2>{{data.nome}}</h2>
     <div class="mugshot">
         <img src="http://divulgacand2014.tse.jus.br/divulga-cand-2014/eleicao/2014/UF/BR/foto/280000000083.jpg?x=1406931687000280000000083" />

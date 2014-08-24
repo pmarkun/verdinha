@@ -1,49 +1,120 @@
 .tooltipster-verdinha {
-	border-radius: 5px;
 	background: #259b24;
+	border-radius: 5px;
 	box-shadow: 0px 1px 1px rgba(0,0,0,0.65);
 	color: #333;
 }
 /* container do tooltip */
 .tooltipster-verdinha .tooltipster-content {
-	font-family: sans-serif;
-	font-size: 12px;
+	font-family: 'Droid Sans', Arial, sans-serif;
+	font-size: 14px;
 	line-height: 16px;
 }
 
 /* cabeçalho do tooltip */
 .tooltipster-verdinha h2 {
-	text-align: center;
+	background: rgba(0, 0, 0, .25);
 	color:#fff;
-	border-bottom: 1px solid #42BD41;
-	padding: 16px; margin: 0;
+	font-size: 22px;
+	font-weight: normal;
+	margin: 0;
+	padding: 16px;
+	text-align: center;
 }
 
 /* foto do político */
 .tooltipster-verdinha .mugshot {
-	width: 160px;
-	height: 160px;
 	border-radius: 80px;
 	border: 1px solid rgba(0,0,0,.25);
+	height: 160px;
+	left: 269px;
 	overflow: hidden;
 	position: absolute;
 	top: 40px;
-	left: 269px;
+	width: 160px;
+	z-index: 9999;
 }
 
 .tooltipster-verdinha .mugshot img { margin-top: -32px; }
 
-.tooltipster-verdinha .e2010, .tooltipster-verdinha .e2014 { float: left; position: relative; z-index: -1; }
+.tooltipster-verdinha .e2010,
+.tooltipster-verdinha .e2014 {
+	float: left;
+	position: relative;
+}
 
-.tooltipster-verdinha table { border-collapse: collapse; min-width: 350px; max-width: 350px; margin-top: 140px;}
+.tooltipster-verdinha .eleita {
+	background: url('eleita.png');
+	color: white;
+	height: 61px;
+	margin: -2px 0 0 -2px;
+	position: absolute;
+	width: 59px;
+	z-index: 9999;
+}
+
+.tooltipster-verdinha h3 {
+	color: rgba(255, 255, 255, .85);
+	font-size: 30px;
+	font-weight: normal;
+	margin: 0;
+	padding: 18px;
+}
+
+.tooltipster-verdinha .e2010 h3 {
+	padding-right: 100px;
+	text-align: right;
+}
+.tooltipster-verdinha .e2014 h3 {
+	padding-left: 100px;
+}
+
+.tooltipster-verdinha ul  {
+	box-sizing: border-box;
+	color: #f0f0f0;
+	line-height: 22px;
+	font-weight: bold;
+	list-style: none;
+	width: 350px;
+}
+
+.tooltipster-verdinha .e2010 ul  {
+	text-align: right;
+	padding: 0 100px 0 0;
+}
+.tooltipster-verdinha .e2014 ul  { padding: 0 0 0 100px; }
+
+.tooltipster-verdinha table {
+	border-collapse: collapse;
+
+	width: 350px;
+}
 
 /* cabeçalho e footer */
-.tooltipster-verdinha th { color:#fff; padding: 16px 10px; font-size: 14px; font-weight: bold; text-align: left; }
+.tooltipster-verdinha th {
+	color:#fff;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 16px 10px;
+	text-align: left;
+}
 
 /* doações */
-.tooltipster-verdinha td { padding: 4px 10px; height: 42px; box-sizing: border-box; vertical-align: middle;}
-.tooltipster-verdinha tr td:last-child, .tooltipster-verdinha tr th:last-child { text-align: right; }
-.tooltipster-verdinha td { background: #fff; border-bottom: 1px solid #ddd; }
+.tooltipster-verdinha td {
+	box-sizing: border-box;
+	font-size: 12px;
+	height: 42px;
+	padding: 4px 10px;
+	vertical-align: middle;
+}
+.tooltipster-verdinha tr td:last-child,
+.tooltipster-verdinha tr th:last-child {
+	text-align: right;
+}
+.tooltipster-verdinha td {
+	background: #fff;
+	border-bottom: 1px solid #ddd;
+}
 
 /* Eleições 2010  */
 .tooltipster-verdinha .e2010 { background: #222; }

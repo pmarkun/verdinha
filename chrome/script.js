@@ -11,9 +11,9 @@ function highlight(matches) {
     var nome = $(this).attr("data-highlight");
     $(this).tooltipster({
       content : $('<table><tr><th>Loading...</th><th> </th></tr></table>'),
-      
+
       theme: 'tooltipster-verdinha',
-      
+
       functionBefore: function(origin, continueTooltip) {
         continueTooltip();
 
@@ -26,12 +26,15 @@ function highlight(matches) {
 }
 
 jQuery(document).ready(function($) {
-  var texto = $("p").text().toUpperCase();
-  console.log('Heyho, heyho!')
-  var worker = new Worker(chrome.runtime.getURL('worker.js')); //Construct worker
-  worker.onmessage = function (event) { //Listen for thread messages
-    highlight(event.data);           //Log to the Chrome console
-    console.log('Pra casa agora eu vou!');
-  };
-  worker.postMessage({'texto' : texto, 'nomes' : nick}); //Start the worker with args
+  chrome.runtime.sendMessage({type: "disabled"}, function(response) {
+    if(!response.disabled) {
+      var texto = $("p").text().toUpperCase();
+      var worker = new Worker(chrome.runtime.getURL('worker.js')); //Construct worker
+      worker.onmessage = function (event) { //Listen for thread messages
+        highlight(event.data);           //Log to the Chrome console
+        console.log('Pra casa agora eu vou!');
+      };
+      worker.postMessage({'texto' : texto, 'nomes' : nick}); //Start the worker with args
+    }
+  });
 });

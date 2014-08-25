@@ -6,7 +6,7 @@
 }
 /* container do tooltip */
 .tooltipster-verdinha .tooltipster-content {
-	font-family: 'Droid Sans', Arial, sans-serif;
+	font-family: sans-serif;
 	font-size: 14px;
 	line-height: 16px;
 }
@@ -24,18 +24,22 @@
 
 /* foto do político */
 .tooltipster-verdinha .mugshot {
-	border-radius: 80px;
+	border-radius: 55px;
 	border: 1px solid rgba(0,0,0,.25);
-	height: 160px;
-	left: 269px;
+	height: 110px;
+	left: 294px;
 	overflow: hidden;
 	position: absolute;
 	top: 40px;
-	width: 160px;
+	width: 110px;
 	z-index: 9999;
 }
 
-.tooltipster-verdinha .mugshot img { margin-top: -32px; }
+.tooltipster-verdinha .mugshot img {
+	height: 155px;
+	margin-top: -20px;
+	width: 110px;
+}
 
 .tooltipster-verdinha .e2010,
 .tooltipster-verdinha .e2014 {
@@ -54,19 +58,19 @@
 }
 
 .tooltipster-verdinha h3 {
-	color: rgba(255, 255, 255, .85);
+	color: rgba(255, 255, 255, .25);
 	font-size: 30px;
 	font-weight: normal;
 	margin: 0;
 	padding: 18px;
+	position: absolute;
 }
 
 .tooltipster-verdinha .e2010 h3 {
-	padding-right: 100px;
-	text-align: right;
+	left: 40px;
 }
 .tooltipster-verdinha .e2014 h3 {
-	padding-left: 100px;
+	right: 0;
 }
 
 .tooltipster-verdinha ul  {
@@ -110,6 +114,7 @@
 .tooltipster-verdinha tr td:last-child,
 .tooltipster-verdinha tr th:last-child {
 	text-align: right;
+	white-space: nowrap;
 }
 .tooltipster-verdinha td {
 	background: #fff;

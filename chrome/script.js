@@ -1,3 +1,5 @@
+var BASE_URL = "http://verdinhas.org.br";
+
 function highlight(matches) {
   $.each(matches, function(key, value) {
     var nome_completo = key;
@@ -10,14 +12,14 @@ function highlight(matches) {
   $('.highlight-1337').each(function() {
     var nome = $(this).attr("data-highlight");
     $(this).tooltipster({
-      content : $('<table><tr><th>Loading...</th><th> </th></tr></table>'),
-
+      content : $('<table><tr><th>Carregando...</th><th> </th></tr></table>'),
+      interactive : true,
       theme: 'tooltipster-verdinha',
 
       functionBefore: function(origin, continueTooltip) {
         continueTooltip();
 
-       $.get("http://127.0.0.1:5000/busca/"+nome, function (data) {
+       $.get(BASE_URL+"/busca/"+nome, function (data) {
           origin.tooltipster('content', $(data));
         });
       }

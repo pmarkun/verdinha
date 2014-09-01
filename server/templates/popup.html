@@ -1,7 +1,12 @@
 <h2>{{data.nome}}</h2>
     <div class="mugshot">
-        <img src="http://divulgacand2014.tse.jus.br/divulga-cand-2014/eleicao/2014/UF/{{data.candidaturas['2014'].uf}}/foto/{{data.mugshot}}.jpg?x=1406931687000280000000083" />
+    {% if data.mugshot is defined %}
+            <img src="http://divulgacand2014.tse.jus.br/divulga-cand-2014/eleicao/2014/UF/{{data.candidaturas['2014'].uf}}/foto/{{data.mugshot}}.jpg?x=1406931687000280000000083" />
+    {% else %}
+      <img src="http://img3.wikia.nocookie.net/__cb20131028023457/dragonball/es/images/9/97/Goku-normal_mini.gif" />
+    {% endif %}
     </div>
+
     <div class="e2010">
       <div class="eleita"></div>
       <h3>2010</h3>
@@ -12,15 +17,15 @@
       </ul>
       <table>
         <tr><th>Doa&ccedil;&otilde;es de campanha </th><th>R$</th></tr>
-        {% if data.candidaturas['2010'].doacoes is not defined %}
-          {% for n in range(5) %}
-          <tr><td></td><td></td></tr>
-          {% endfor %}
-          <tr><td>* Ou existe inconsistência no nome do candidato nas bases do TSE.</td><td></td></tr>
-        {% endif %}
         {% for d in data.candidaturas['2010'].doacoes %}
-          <tr><td>{{d[1].nome}}</td><td>{{(d[1].valor)|round|int|cifras}}</td></tr>
+          <tr><td><span id="v_{{d[0]}}" class="verdinha-click" data-id="{{d[0]}}">{{d[1].nome}}</span></td><td>{{(d[1].valor)|round|int|cifras}}</td></tr>
         {% endfor %}
+        {% for n in range(5-data.candidaturas['2010'].doacoes|length) %}
+            <tr><td></td><td></td></tr>
+        {% endfor %}
+        {% if data.candidaturas['2014'].doacoes is not defined %}
+          <tr><td>* Ou existe inconsistência no nome do candidato nas bases do TSE.</td><td></td></tr>
+        {% endif %}        
         {% if data.candidaturas['2010'].outras_doacoes > 0 %}
           <tr><td>Outras</td><td>{{(data.candidaturas['2010'].outras_doacoes)|round|cifras}}</td></tr>
         {% endif %}
@@ -36,18 +41,22 @@
       </ul>
       <table>
         <tr><th>Doa&ccedil;&otilde;es de campanha</th><th>R$</th></tr>
-          {% if data.candidaturas['2014'].doacoes is not defined %}
-            {% for n in range(5) %}
-            <tr><td></td><td></td></tr>
-            {% endfor %}
-            <tr><td>* Prestação parcial vazia ou não entregou a prestação.</td><td></td></tr>
-          {% endif %}
           {% for d in data.candidaturas['2014'].doacoes %}
-            <tr><td>{{d[1].nome}}</td><td>{{(d[1].valor)|round|int|cifras}}</td></tr>
+            <tr><td><span id="v_{{d[0]}}" class="verdinha-click" data-id="{{d[0]}}">{{d[1].nome}}</span></td><td>{{(d[1].valor)|round|int|cifras}}</td></tr>
           {% endfor %}
-            {% if data.candidaturas['2014'].outras_doacoes > 0 %}
+
+          {% for n in range(5-data.candidaturas['2014'].doacoes|length) %}
+            <tr><td></td><td></td></tr>
+          {% endfor %}
+          
+          {% if data.candidaturas['2014'].doacoes is not defined %}
+            <tr><td>* Prestação parcial vazia ou não entregou a prestação.</td><td></td></tr>
+          }
+          {% endif %}
+          
+          {% if data.candidaturas['2014'].outras_doacoes > 0 %}
             <tr><td>Outras</td><td>{{(data.candidaturas['2014'].outras_doacoes)|round|cifras}}</td></tr>
-            {% endif %}
+          {% endif %}
           <tr><th>Total: </th><th>{{(data.candidaturas['2014'].total)|round|int|cifras}}</th></tr>
       </table>
     </div>

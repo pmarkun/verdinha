@@ -1,5 +1,25 @@
 var BASE_URL = "http://verdinhas.org.br";
+//var BASE_URL = "http://127.0.0.1:5000";
 
+function refreshTooltip(origin) {
+  $(".verdinha-click").click(function (e) {
+            e.preventDefault();
+            var _id = $(e.currentTarget).data('id');
+            if (isNaN(_id)) {
+              $.get(BASE_URL+"/busca/"+_id, function (data) {
+                origin.tooltipster('content', $(data));
+                refreshTooltip(origin);
+              });
+            }
+            else {
+              $.get(BASE_URL+"/cnpj/"+_id, function (data) {
+                origin.tooltipster('content', $(data));
+                refreshTooltip(origin);
+              });
+            }
+            
+          });
+}
 function highlight(matches) {
   $.each(matches, function(key, value) {
     var nome_completo = key;
@@ -18,11 +38,13 @@ function highlight(matches) {
 
       functionBefore: function(origin, continueTooltip) {
         continueTooltip();
-
        $.get(BASE_URL+"/busca/"+nome, function (data) {
           origin.tooltipster('content', $(data));
+          refreshTooltip(origin);
         });
-      }
+      },
+
+
     });
   });
 }

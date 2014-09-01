@@ -47,5 +47,47 @@ def busca(nome, ext='html'):
 	else:
 		abort(404)
 
+@app.route("/cnpj/<cnpj>")
+def cnpj(cnpj):
+	resultado = {
+		'nome' : '',
+		'candidaturas' : {
+			'2014' : {
+				'doacoes' : {},
+				'total' : 0,
+				'outras_doacoes' : 0.0
+			},
+			'2010' : {
+				'doacoes' : {},
+				'total' : 0,
+				'outras_doacoes' : 0
+			}
+		}
+	}
+
+	#hackish slugish
+	for ano in ['2010','2014']:
+		query = {"candidaturas."+ano+".doacoes."+cnpj : { "$exists" : "true"}}
+		#fields = ["candidaturas.2014.doacoes."+cnpj]
+		sort = [("candidaturas."+ano+".doacoes."+cnpj+".valor", 'DESCENDING')]
+		result = mongo.db.politicos.find(query)
+		for i in result:
+			resultado['nome'] = i['candidaturas'][ano]['doacoes'][cnpj]['nome']
+			resultado['candidaturas'][ano]['doacoes'][i['nome']] = {
+				'nome' : i['nome'],
+				'valor' : i['candidaturas'][ano]['doacoes'][cnpj]['valor']
+			}
+		
+		for r in resultado['candidaturas'][ano]['doacoes']:
+			resultado['candidaturas'][ano]['total'] += resultado['candidaturas'][ano]['doacoes'][r]['valor']
+		resultado['candidaturas'][ano]['doacoes'] = sorted(resultado['candidaturas'][ano]['doacoes'].iteritems(), key=lambda x: x[1]['valor'], reverse=True)[0:5]
+		resultado['candidaturas'][ano]['outras_doacoes'] = float(resultado['candidaturas'][ano]['total'])
+		for r in resultado['candidaturas'][ano]['doacoes']:
+			resultado['candidaturas'][ano]['outras_doacoes'] += -1*float(r[1]['valor'])
+
+	#return jsonify(resultado)
+	return render_template('popup.html', data=resultado)
+
+
 if __name__ == "__main__":
 	app.run(debug=True)

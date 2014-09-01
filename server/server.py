@@ -74,7 +74,7 @@ def cnpj(cnpj):
 		for i in result:
 			resultado['nome'] = i['candidaturas'][ano]['doacoes'][cnpj]['nome']
 			resultado['candidaturas'][ano]['doacoes'][i['nome']] = {
-				'nome' : i['nome'],
+				'nome' : i['nome'] + " - " + i['partido'],
 				'valor' : i['candidaturas'][ano]['doacoes'][cnpj]['valor']
 			}
 		

@@ -36,5 +36,7 @@ def futuro():
 def cifras(valor):
     if valor > 1000000:
         return str(valor/1000000) + " milhoes"
-    else:
+    elif valor > 1000:
         return str(valor/1000) + " mil"
+    else:
+        return str(valor) + " reais"

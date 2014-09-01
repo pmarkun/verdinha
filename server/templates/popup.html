@@ -6,7 +6,7 @@
       <div class="eleita"></div>
       <h3>2010</h3>
       <ul>
-        <li>{{data.candidaturas['2010'].cargo|default('Não concorreu')}}</li>
+        <li>{{data.candidaturas['2010'].cargo|default('Não foi candidato*')}}</li>
         <li>{{data.candidaturas['2010'].uf}}&nbsp;</li>
         <li>{{data.candidaturas['2010'].partido}}&nbsp;</li>
       </ul>
@@ -16,12 +16,13 @@
           {% for n in range(5) %}
           <tr><td></td><td></td></tr>
           {% endfor %}
+          <tr><td>* Ou existe inconsistência no nome do candidato nas bases do TSE.</td><td></td></tr>
         {% endif %}
         {% for d in data.candidaturas['2010'].doacoes %}
           <tr><td>{{d[1].nome}}</td><td>{{(d[1].valor)|round|int|cifras}}</td></tr>
         {% endfor %}
         {% if data.candidaturas['2010'].outras_doacoes > 0 %}
-          <tr><td>Outras</td><td>{{(data.candidaturas['2010'].outras_doacoes)|round|int|cifras}}</td></tr>
+          <tr><td>Outras</td><td>{{(data.candidaturas['2010'].outras_doacoes)|round|cifras}}</td></tr>
         {% endif %}
         <tr><th>Total: </th><th>{{(data.candidaturas['2010'].total)|round|int|cifras}}</th></tr>
       </table>
@@ -29,7 +30,7 @@
     <div class="e2014">
       <h3>2014</h3>
       <ul>
-        <li>{{data.candidaturas['2014'].cargo|default('Não concorrendo')}}</li>
+        <li>{{data.candidaturas['2014'].cargo|default('Sem prestação*')}}</li>
         <li>{{data.candidaturas['2014'].uf}}&nbsp;</li>
         <li>{{data.candidaturas['2014'].partido}}&nbsp;</li>
       </ul>
@@ -39,12 +40,13 @@
             {% for n in range(5) %}
             <tr><td></td><td></td></tr>
             {% endfor %}
+            <tr><td>* Prestação parcial vazia ou não entregou a prestação.</td><td></td></tr>
           {% endif %}
           {% for d in data.candidaturas['2014'].doacoes %}
             <tr><td>{{d[1].nome}}</td><td>{{(d[1].valor)|round|int|cifras}}</td></tr>
           {% endfor %}
             {% if data.candidaturas['2014'].outras_doacoes > 0 %}
-            <tr><td>Outras</td><td>{{(data.candidaturas['2014'].outras_doacoes)|round|int|cifras}}</td></tr>
+            <tr><td>Outras</td><td>{{(data.candidaturas['2014'].outras_doacoes)|round|cifras}}</td></tr>
             {% endif %}
           <tr><th>Total: </th><th>{{(data.candidaturas['2014'].total)|round|int|cifras}}</th></tr>
       </table>

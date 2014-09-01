@@ -32,3 +32,9 @@ def diasatras(data_inicio, data_fim=None):
 
 def futuro():
     return time.mktime((datetime.datetime.now()+datetime.timedelta(1)).timetuple())
+
+def cifras(valor):
+    if valor > 1000000:
+        return str(valor/1000000) + " milhoes"
+    else:
+        return str(valor/1000) + " mil"

@@ -17,17 +17,18 @@ def getCandidatos():
 		for COD in codigos:
 			print "Getting " + UF + " " + COD		
 			try:
-				site = parsexml(base_url+"&sgUe="+UF+"&cdCargo="+str(codigos[COD])).getroot()
-				candidatos += raspa(site)
+				site = parsexml(base_url+"&sgUe="+UF+"&cdCargo="+str(codigos[COD]), timeout=10).getroot()
 			except:
-				print "Error getting " + UF + " " + COD
-				errors.append("Error getting " + UF + " " + COD)
-
-	arquivo = open(diretorio+'/candidatos2014.json', 'w')
+				print "Tentando de novo..."
+				time.sleep(3)
+				site = parsexml(base_url+"&sgUe="+UF+"&cdCargo="+str(codigos[COD]), timeout=10).getroot()
+			candidatos += raspaCandidato(site, COD)
+			
+	arquivo = open(diretorio+'/candidatos.json', 'w')
 	arquivo.write(json.dumps(candidatos, indent=4))
 	arquivo.close()
 
-def raspaCandidato(site):
+def raspaCandidato(site, COD):
 	cand = []
 	for index, link in enumerate(site.xpath('//sqCand')):
 		c = link.text
@@ -63,7 +64,7 @@ def getComites():
 			}
 			comites.append(com)
 
-	arquivo = open(diretorio+'comites.json', 'w')
+	arquivo = open(diretorio+'/comites.json', 'w')
 	arquivo.write(json.dumps(comites, indent=4))
 	arquivo.close()
 
@@ -84,8 +85,11 @@ def prestacao_candidatos():
 			print 'Getting ' + str(_id)
 			try:
 				planilha = urllib2.urlopen(base_url, data=base_post+_id, timeout=10)
+				planilha = planilha.read()
+				if '<head>' in planilha:
+					planilha = 'prestacao\nnao entregue'
 				with open(diretorio+'/candidatos/'+_id+'.csv', 'w') as arquivo:
-					arquivo.write(planilha.read())
+					arquivo.write(planilha)
 			except socket.timeout:
 				print "Ugga! Respira mais!"
 				time.sleep(wait_period*5)
@@ -115,6 +119,11 @@ def prestacao_comites():
 				time.sleep(wait_period*5)
 				prestacao_comites()
 
+def rockandroll():
+	try:
+		prestacao_candidatos()
+	except:
+		rockandroll()
 
 # Baixa comites 2014
 if not os.path.isfile(diretorio+'/comites.json'):
@@ -132,4 +141,4 @@ if os.path.isfile(diretorio+'/comites.json'):
 	prestacao_comites()
 if os.path.isfile(diretorio+'/candidatos.json'):
 	print "Baixando candidatos..."
-	prestacao_candidatos()
+	rockandroll()

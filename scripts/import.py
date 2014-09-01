@@ -2,7 +2,7 @@
 # Script para importar os arquivos de candidatos 2014, doacoes 2010 e 2014.
 # TODO: Importar congressistas!
 
-import csvkit, json, os
+import csvkit, json, os, unidecode
 
 estados = {
 	"DISTRITO FEDERAL" : "DF",
@@ -51,67 +51,79 @@ def mongo_save(itens, colecao, clear=False):
 		col.update({'_id' : i}, itens[i], upsert=True)
 
 def importaCandidatos(arquivo):
+	print "Importando candidatos"
 	raw = open(arquivo, 'r')
 	raw = csvkit.reader(raw, encoding='iso-8859-1', delimiter=';')
 	candidatos = {}
+	lista = {}
 	for c in raw:
+		c[10] = unidecode.unidecode(c[10])
 		candidatos[c[26]] = {
 			'nome' : c[10],
 			'apelidos' : [c[13]],
 			'_id' : c[26],
 			'candidaturas' : {}
 		}
+		# Salva lista
+		if c[9] not in ['REMOVER']:
+				lista[c[10]] = 0
+		if c[9] in ['GOVERNADOR', 'PRESIDENTE']: #adiciona tambem o nome de urna nesses casos
+				lista[c[13]] = c[10]
 	mongo_save(candidatos, 'politicos', True)
+	with open('names.js', 'w') as final:
+		header ="var nick = "
+		final.write(header+json.dumps(lista))
 
-def importaPrestacoes2010(arquivo):
-	from pymongo import MongoClient
-	client = MongoClient()
-	db = client.verdinha
-	col = db.politicos
-	
-	presentes = []
-	ausentes = []
+def preImportaPrestacoes2010(arquivo):
+	candidatos = {}
 	raw = open(arquivo, 'r')
 	doacoes_raw = csvkit.DictReader(raw, encoding='iso-8859-1', delimiter=';')
 	for d in doacoes_raw:
-		if d['Nome candidato'] not in presentes and d['Nome candidato'] not in ausentes:
-			p = col.find_one({'nome' : d['Nome candidato']})
-			if p:
-				presentes.append(d['Nome candidato'])
-			else:
-				ausentes.append(d['Nome candidato']) #hackish sleepy
-		if d['Nome candidato'] in presentes:
-			if not p['candidaturas'].has_key('2010'):
-				p['candidaturas']['2010'] = {
-							'ano' : 2010,
-							'cargo' : d['Cargo'],
-							'situacao' : '',
-							'numero' : d[u'Número candidato'],
-							'partido' : d['Sigla Partido'],
-							'uf' : d['UF'],
-							'doacoes' : {},
-							'total' : 0
-						}
-				
-			p['candidaturas']['2010']['total'] += float(d['Valor receita'].strip('R$ ').strip('\.').replace('.','').replace(',','.'))
+		d['Nome candidato'] = unidecode.unidecode(d['Nome candidato'])
+		if not candidatos.has_key(d['Nome candidato']):
+			candidatos[d['Nome candidato']] = {
+				'ano' : 2010,
+				'cargo' : d['Cargo'],
+				'situacao' : '',
+				'numero' : d[u'Número candidato'],
+				'partido' : d['Sigla Partido'],
+				'uf' : d['UF'],
+				'doacoes' : {},
+				'total' : 0
+			}
+		else:
+			candidatos[d['Nome candidato']]['total'] += float(d['Valor receita'].strip('R$ ').strip('\.').replace('.','').replace(',','.'))
 			cnpj_id = d['CPF/CNPJ do doador'].replace('/','').replace('-','').replace('.','')
-			if not p['candidaturas']['2010']['doacoes'].has_key(cnpj_id):	
-				p['candidaturas']['2010']['doacoes'][cnpj_id] = {
+			if not candidatos[d['Nome candidato']]['doacoes'].has_key(cnpj_id):	
+				candidatos[d['Nome candidato']]['doacoes'][cnpj_id] = {
 					'nome' : d['Nome do doador'],
 					'cnpj' : d['CPF/CNPJ do doador'],
 					'valor' : float(d['Valor receita'].strip('R$ ').strip('\.').replace('.','').replace(',','.'))
 				}
 				#todo doador originario
 			else:
-				p['candidaturas']['2010']['doacoes'][cnpj_id]['valor'] += float(d['Valor receita'].strip('R$ ').strip('\.').replace('.','').replace(',','.'))
+				candidatos[d['Nome candidato']]['doacoes'][cnpj_id]['valor'] += float(d['Valor receita'].strip('R$ ').strip('\.').replace('.','').replace(',','.'))
+	importaPrestacoes2010(candidatos)
+
+def importaPrestacoes2010(candidatos):
+	from pymongo import MongoClient
+	client = MongoClient()
+	db = client.verdinha
+	col = db.politicos
+	
+	for d in candidatos:
+		p = col.find_one({'nome' : d})
+		if p:
+			p['candidaturas']['2010'] = candidatos[d]
 			col.update({'_id' : p['_id']}, p, upsert=True)
 
 def processaPrestacoes2010():
+	print "Processando 2010..."
 	for folder,z,c in os.walk('../raw/prestacao2010/candidato'):
 		arquivo = folder + '/ReceitasCandidatos.txt'
 		if os.path.isfile(arquivo):
 			print 'Getting ' + arquivo
-			importaPrestacoes2010(arquivo)
+			preImportaPrestacoes2010(arquivo)
 
 def importaPrestacoes2014(arquivo, mugshot):
 	from pymongo import MongoClient
@@ -122,6 +134,10 @@ def importaPrestacoes2014(arquivo, mugshot):
 	raw = open(arquivo, 'r')
 	doacoes_raw = csvkit.DictReader(raw, encoding='iso-8859-1', delimiter=';')
 	c = doacoes_raw.next()
+	if c.has_key('prestacao'):
+		#print arquivo + " nao entregue"
+		return None
+	c['Nome do Candidato'] = unidecode.unidecode(c['Nome do Candidato'])
 	p = col.find_one({'nome' : c['Nome do Candidato']})
 	if not p:
 		print c['Nome do Candidato'] + " not found..."
@@ -157,10 +173,15 @@ def importaPrestacoes2014(arquivo, mugshot):
 			col.update({'_id' : p['_id']}, p, upsert=True)
 
 def processaPrestacoes2014():
-	print "Processando..."
+	print "Processando 2014..."
 	for arquivo in os.listdir('../raw/prestacao2014/candidatos'):
 		p = '../raw/prestacao2014/candidatos/'+arquivo
 		if os.path.isfile(p) and os.path.getsize(p) > 0:
-			importaPrestacoes2014(p, arquivo[:-4])
+			try:
+				importaPrestacoes2014(p, arquivo[:-4])
+			except:
+				print arquivo
 
-#importaCandidatos('../raw/candidaturas2014/candidatos_total.csv')
+importaCandidatos('../raw/candidaturas2014/candidatos_total.csv')
+processaPrestacoes2014()
+processaPrestacoes2010()

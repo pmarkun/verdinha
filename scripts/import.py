@@ -58,12 +58,24 @@ def importaCandidatos(arquivo):
 	lista = {}
 	for c in raw:
 		c[10] = unidecode.unidecode(c[10])
-		candidatos[c[26]] = {
-			'nome' : c[10],
-			'apelidos' : [c[13]],
-			'_id' : c[26],
-			'candidaturas' : {}
-		}
+		if c[9] in ['GOVERNADOR', 'PRESIDENTE', 'DEPUTADO FEDERAL', 'SENADOR']:
+			candidatos[c[26]] = {
+				'nome' : c[10],
+				'apelidos' : [c[13]],
+				'_id' : c[26],
+				'candidaturas' : {}
+			}
+			candidatos[c[26]]['candidaturas']['2014'] = {
+				'cargo' : c[9],
+				'situacao' : c[15],
+				'numero' : c[12],
+				'partido' : c[17],
+				'uf' : c[5],
+				'doacoes' : {},
+				'total' : 0,
+				'mugshot' : c[19]
+			}
+
 		# Salva lista
 		if c[9] not in ['REMOVER']:
 				lista[c[10]] = 0
@@ -170,6 +182,7 @@ def importaPrestacoes2014(arquivo, mugshot):
 				#todo doador originario
 			else:
 				p['candidaturas']['2014']['doacoes'][cnpj_id]['valor'] += float(d['Valor R$'].strip('R$ ').strip('\.').replace('.','').replace(',','.'))
+			print p
 			col.update({'_id' : p['_id']}, p, upsert=True)
 
 def processaPrestacoes2014():

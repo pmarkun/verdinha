@@ -1,0 +1,4 @@
+SETTINGS = {
+	"username" : None,
+	"password" : None
+}

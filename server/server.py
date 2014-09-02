@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, url_for, redirect, abort
 from tools import jsonify, cifras
 from flask.ext.pymongo import PyMongo
+from settings import *
 import operator
 
 app = Flask(__name__)
 app.config['MONGO_DBNAME'] = 'verdinha'
-#app.config["SECRET_KEY"] = "KeepThisS3cr3t"
+app.config['MONGO_USERNAME'] = SETTINGS['username']
+app.config['MONGO_PASSWORD'] = SETTINGS['password']
 mongo = PyMongo(app)
 app.jinja_env.filters['cifras'] = cifras
 
@@ -74,7 +76,7 @@ def cnpj(cnpj):
 		for i in result:
 			resultado['nome'] = i['candidaturas'][ano]['doacoes'][cnpj]['nome']
 			resultado['candidaturas'][ano]['doacoes'][i['nome']] = {
-				'nome' : i['nome'] + " - " + i['partido'],
+				'nome' : i['nome'] + " " + i['candidaturas'][ano]['partido']+"/"+i['candidaturas'][ano]['uf'],
 				'valor' : i['candidaturas'][ano]['doacoes'][cnpj]['valor']
 			}
 		

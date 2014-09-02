@@ -63,7 +63,8 @@ def importaCandidatos(arquivo):
 				'nome' : c[10],
 				'apelidos' : [c[13]],
 				'_id' : c[26],
-				'candidaturas' : {}
+				'candidaturas' : {},
+				'mugshot' : c[11]
 			}
 			candidatos[c[26]]['candidaturas']['2014'] = {
 				'cargo' : c[9],
@@ -73,7 +74,6 @@ def importaCandidatos(arquivo):
 				'uf' : c[5],
 				'doacoes' : {},
 				'total' : 0,
-				'mugshot' : c[19]
 			}
 
 		# Salva lista
@@ -151,14 +151,11 @@ def importaPrestacoes2014(arquivo, mugshot):
 		return None
 	c['Nome do Candidato'] = unidecode.unidecode(c['Nome do Candidato'])
 	p = col.find_one({'nome' : c['Nome do Candidato']})
-	if not p:
-		print c['Nome do Candidato'] + " not found..."
-		print arquivo
-	else:
+	if p:
 		raw.seek(0) #rewind!
 		doacoes_raw = csvkit.DictReader(raw, encoding='iso-8859-1', delimiter=';')
 		for d in doacoes_raw:
-			p['mugshot'] = mugshot
+			#p['mugshot'] = mugshot
 			if not p['candidaturas'].has_key('2014'):
 				p['candidaturas']['2014'] = {
 							'ano' : 2014,
@@ -182,7 +179,6 @@ def importaPrestacoes2014(arquivo, mugshot):
 				#todo doador originario
 			else:
 				p['candidaturas']['2014']['doacoes'][cnpj_id]['valor'] += float(d['Valor R$'].strip('R$ ').strip('\.').replace('.','').replace(',','.'))
-			print p
 			col.update({'_id' : p['_id']}, p, upsert=True)
 
 def processaPrestacoes2014():

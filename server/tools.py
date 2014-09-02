@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 try:
     import simplejson as json
 except ImportError:
@@ -34,9 +35,20 @@ def futuro():
     return time.mktime((datetime.datetime.now()+datetime.timedelta(1)).timetuple())
 
 def cifras(valor):
+    valor = float(valor)
     if valor > 1000000:
-        return str(valor/1000000) + " milhoes"
+        valor = valor/1000000.0
+        valor = int(valor) if round(valor,1).is_integer() else round(valor,1)
+        if valor == 1.0:
+            return unicode(valor) + u" milhão"
+        else:
+            return unicode(valor) + u" milhões"
     elif valor > 1000:
-        return str(valor/1000) + " mil"
+        valor = valor/1000.0
+        valor = int(valor) if round(valor,1).is_integer() else round(valor,1)
+        return str(valor) + " mil"
     else:
+        if valor == 1.0:
+           return "1 real"
+        valor = int(valor) if valor.is_integer() else round(valor,1)
         return str(valor) + " reais"

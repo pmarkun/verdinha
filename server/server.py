@@ -86,8 +86,6 @@ def cnpj(cnpj):
 		resultado['candidaturas'][ano]['outras_doacoes'] = float(resultado['candidaturas'][ano]['total'])
 		for r in resultado['candidaturas'][ano]['doacoes']:
 			resultado['candidaturas'][ano]['outras_doacoes'] += -1*float(r[1]['valor'])
-
-	#return jsonify(resultado)
 	return render_template('popup.html', data=resultado)
 
 

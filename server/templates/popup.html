@@ -20,15 +20,16 @@
         {% for d in data.candidaturas['2010'].doacoes %}
           <tr><td><span id="v_{{d[0]}}" class="verdinha-click" data-id="{{d[0]}}">{{d[1].nome}}</span></td><td>{{(d[1].valor)|round|int|cifras}}</td></tr>
         {% endfor %}
+
         {% for n in range(5-data.candidaturas['2010'].doacoes|length) %}
             <tr><td></td><td></td></tr>
         {% endfor %}
+
         {% if data.candidaturas['2014'].doacoes is not defined %}
           <tr><td>* Ou existe inconsistência no nome do candidato nas bases do TSE.</td><td></td></tr>
-        {% endif %}        
-        {% if data.candidaturas['2010'].outras_doacoes > 0 %}
-          <tr><td>Outras</td><td>{{(data.candidaturas['2010'].outras_doacoes)|round|cifras}}</td></tr>
         {% endif %}
+
+        <tr><td>Outras</td><td>{{(data.candidaturas['2010'].outras_doacoes)|round|cifras}}</td></tr>
         <tr><th>Total: </th><th>{{(data.candidaturas['2010'].total)|round|int|cifras}}</th></tr>
       </table>
     </div>
@@ -48,15 +49,12 @@
           {% for n in range(5-data.candidaturas['2014'].doacoes|length) %}
             <tr><td></td><td></td></tr>
           {% endfor %}
-          
+
           {% if data.candidaturas['2014'].doacoes is not defined %}
             <tr><td>* Prestação parcial vazia ou não entregou a prestação.</td><td></td></tr>
-          }
           {% endif %}
-          
-          {% if data.candidaturas['2014'].outras_doacoes > 0 %}
-            <tr><td>Outras</td><td>{{(data.candidaturas['2014'].outras_doacoes)|round|cifras}}</td></tr>
-          {% endif %}
+
+          <tr><td>Outras</td><td>{{(data.candidaturas['2014'].outras_doacoes)|round|cifras}}</td></tr>
           <tr><th>Total: </th><th>{{(data.candidaturas['2014'].total)|round|int|cifras}}</th></tr>
       </table>
     </div>

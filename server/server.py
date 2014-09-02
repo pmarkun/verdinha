@@ -14,7 +14,7 @@ app.jinja_env.filters['cifras'] = cifras
 #tmp
 @app.route("/")
 def index():
-	return render_template('front.html')
+	return redirect("http://www.verdinhas.org.br/website", code=302)
 
 @app.route("/busca/<nome>")
 @app.route("/busca/<nome>/<ext>")

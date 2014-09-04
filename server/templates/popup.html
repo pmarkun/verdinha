@@ -1,19 +1,16 @@
 <h2>{{data.nome}}</h2>
-    <div class="mugshot">
     {% if data.mugshot is defined %}
-            <img src="http://divulgacand2014.tse.jus.br/divulga-cand-2014/eleicao/2014/UF/{{data.candidaturas['2014'].uf}}/foto/{{data.mugshot}}.jpg?x=1406931687000280000000083" />
-    {% else %}
-      <img src="http://img3.wikia.nocookie.net/__cb20131028023457/dragonball/es/images/9/97/Goku-normal_mini.gif" />
+      <div class="mugshot">
+        <img src="http://divulgacand2014.tse.jus.br/divulga-cand-2014/eleicao/2014/UF/{{data.candidaturas['2014'].uf}}/foto/{{data.mugshot}}.jpg?x=1406931687000280000000083" />
+      </div>
     {% endif %}
-    </div>
-
     <div class="e2010">
       <div class="eleita"></div>
       <h3>2010</h3>
       <ul>
         <li>{{data.candidaturas['2010'].cargo|default('Não foi candidato*')}}</li>
-        <li>{{data.candidaturas['2010'].uf}}&nbsp;</li>
-        <li>{{data.candidaturas['2010'].partido}}&nbsp;</li>
+        <li>{{data.candidaturas['2010'].uf|default('&nbsp;')}}</li>
+        <li>{{data.candidaturas['2010'].partido|default('&nbsp;')}}</li>
       </ul>
       <table>
         <tr><th>Doa&ccedil;&otilde;es de campanha </th><th>R$</th></tr>
@@ -37,8 +34,8 @@
       <h3>2014</h3>
       <ul>
         <li>{{data.candidaturas['2014'].cargo|default('Sem prestação*')}}</li>
-        <li>{{data.candidaturas['2014'].uf}}&nbsp;</li>
-        <li>{{data.candidaturas['2014'].partido}}&nbsp;</li>
+        <li>{{data.candidaturas['2014'].uf|default('&nbsp;')}}</li>
+        <li>{{data.candidaturas['2014'].partido|default('&nbsp;')}}</li>
       </ul>
       <table>
         <tr><th>Doa&ccedil;&otilde;es de campanha</th><th>R$</th></tr>

@@ -17,7 +17,7 @@ function refreshTooltip(origin) {
                 refreshTooltip(origin);
               });
             }
-            
+
           });
 }
 function highlight(matches) {
@@ -34,6 +34,7 @@ function highlight(matches) {
     $(this).tooltipster({
       content : $('<table><tr><th>Carregando...</th><th> </th></tr></table>'),
       interactive : true,
+      arrow: false,
       theme: 'tooltipster-verdinha',
 
       functionBefore: function(origin, continueTooltip) {

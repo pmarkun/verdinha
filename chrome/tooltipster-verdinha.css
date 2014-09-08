@@ -4,6 +4,7 @@
 	box-shadow: 0px 2px 4px rgba(0,0,0,0.65);
 	color: #333;
 	max-width: 640px;
+	z-index: 9999999998;
 }
 /* container do tooltip */
 .tooltipster-verdinha .tooltipster-content {
@@ -36,7 +37,7 @@
 	position: absolute;
 	top: 40px;
 	width: 65px;
-	z-index: 9999;
+	z-index: 9999999999;
 	-webkit-transform: rotate(45deg);
 }
 
@@ -60,7 +61,7 @@
 	margin: -2px 0 0 -2px;
 	position: absolute;
 	width: 59px;
-	z-index: 9999;
+	z-index: 9999999999;
 }
 
 .tooltipster-verdinha h3 {

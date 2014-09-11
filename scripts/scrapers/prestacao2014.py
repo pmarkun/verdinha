@@ -71,7 +71,7 @@ def getComites():
 def prestacao_candidatos():
 	candidatos = json.load(open(diretorio+'/candidatos.json'))
 	base_url = "http://inter01.tse.jus.br/spceweb.consulta.receitasdespesas2014/resumoReceitasByCandidato.action"
-	base_post = "sgUe=&rb1=on&rbTipo=on&tipoEntrega=1&nrCandidato=&nmCandidato=&sgUfMunicipio=&sgPartido=&nomeDoador=&cpfCnpjDoador=&action%3AexportaReceitaCsvCandidato=Exportar+como+planilha&sqCandidato="
+	base_post = "sgUe=&rb1=on&rbTipo=on&tipoEntrega=2&nrCandidato=&nmCandidato=&sgUfMunicipio=&sgPartido=&nomeDoador=&cpfCnpjDoador=&action%3AexportaReceitaCsvCandidato=Exportar+como+planilha&sqCandidato="
 	wait_period = 1
 	counter = 0
 	for c in candidatos:
@@ -84,7 +84,7 @@ def prestacao_candidatos():
 			_id = c['id']
 			print 'Getting ' + str(_id)
 			try:
-				planilha = urllib2.urlopen(base_url, data=base_post+_id, timeout=10)
+				planilha = urllib2.urlopen(base_url, data=base_post+_id, timeout=30)
 				planilha = planilha.read()
 				if '<head>' in planilha:
 					planilha = 'prestacao\nnao entregue'
@@ -98,7 +98,7 @@ def prestacao_candidatos():
 def prestacao_comites():
 	comites = json.load(open(diretorio+'/comites.json'))
 	base_url = "http://inter01.tse.jus.br/spceweb.consulta.receitasdespesas2014/resumoReceitasByComite.action"
-	base_post = "sgUe=&rb1=on&rbTipo=on&tipoEntrega=1&nomeOrgao=&sgUfMunicipio=&sgPartido=&nomeDoador=&cpfCnpjDoador=&action%3AexportaReceitaCsvComite=Exportar+como+Planilha&sqComiteFinanceiro="
+	base_post = "sgUe=&rb1=on&rbTipo=on&tipoEntrega=2&nomeOrgao=&sgUfMunicipio=&sgPartido=&nomeDoador=&cpfCnpjDoador=&action%3AexportaReceitaCsvComite=Exportar+como+Planilha&sqComiteFinanceiro="
 	wait_period = 1
 	counter = 0
 	for c in comites:
@@ -111,7 +111,7 @@ def prestacao_comites():
 			_id = c['id']
 			print 'Getting' + str(_id)
 			try:
-				planilha = urllib2.urlopen(base_url, data=base_post+_id, timeout=10)
+				planilha = urllib2.urlopen(base_url, data=base_post+_id, timeout=30)
 				with open(diretorio+'/comites/'+_id+'.csv', 'w') as arquivo:
 					arquivo.write(planilha.read())
 			except socket.timeout:
@@ -119,11 +119,14 @@ def prestacao_comites():
 				time.sleep(wait_period*5)
 				prestacao_comites()
 
-def rockandroll():
+def rockandroll(grau):
 	try:
-		prestacao_candidatos()
+		if grau == 'candidatos':
+			prestacao_candidatos()
+		else:
+			prestacao_comites()
 	except:
-		rockandroll()
+		rockandroll(grau)
 
 # Baixa comites 2014
 if not os.path.isfile(diretorio+'/comites.json'):
@@ -139,6 +142,8 @@ if not os.path.isfile(diretorio+'/candidatos.json'):
 if os.path.isfile(diretorio+'/comites.json'):
 	print "Baixando comites..."
 	prestacao_comites()
+	rockandroll('comites')
+
 if os.path.isfile(diretorio+'/candidatos.json'):
 	print "Baixando candidatos..."
-	rockandroll()
+	rockandroll('candidatos')

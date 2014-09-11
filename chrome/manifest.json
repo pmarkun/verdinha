@@ -1,7 +1,7 @@
 {
   "name": "Verdinhas",
   "description": "Análisa a página em busca de candidatos e congressistas e exibe as maiores doações de campanha.",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "permissions": [
     "activeTab",
     "http://*/*"
@@ -9,6 +9,13 @@
   "background": {
     "scripts": ["background.js"],
     "persistent": true
+  },
+  "browser_action": {
+    "default_icon": {
+     "19": "images/icon19.png",
+     "38": "images/icon38.png"
+    },
+    "default_title": "Verdinhas [Ligado]"
   },
   "content_scripts": [ {
 	"css": [ "tooltipster.css", "tooltipster-verdinha.css", "styles.css"],

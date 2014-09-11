@@ -50,7 +50,7 @@ p {
   padding-top: 104px;
   font-family: Helvetica, sans-serif;
   color: black;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 30px;
   text-align: left;
   list-style-type: none;
@@ -407,7 +407,7 @@ p {
   position: absolute;
   left: 0px;
   right: 0px;
-  bottom: 15%;
+  bottom: -20%;
   overflow-x: visible;
   overflow-y: visible;
   height: auto;

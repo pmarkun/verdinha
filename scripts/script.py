@@ -2,6 +2,8 @@
 # Script para importar os arquivos de candidatos 2014.
 
 import csvkit, json, os
+from lxml.etree import parse
+import urllib2, unidecode
 
 def generateCand():
 	'''Gera names.json a partir dos arquivos de candidatura de 2014 na pasta.
@@ -11,7 +13,7 @@ def generateCand():
 	ufs = ["AC", "AL", "AM", "AP",  "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO","BR"]
 	for uf in ufs:
 		print 'Getting '+uf
-		cand = open("../raw/consulta_cand_2014_"+uf+".txt", 'r')
+		cand = open("../raw/candidaturas2014/consulta_cand_2014_"+uf+".txt", 'r')
 		cand = csvkit.reader(cand, encoding='iso-8859-1', delimiter=';')
 		for c in cand:
 			#if c[15] == 'DEFERIDO': #muitas candidaturas ainda nao foram deferidas
@@ -19,7 +21,8 @@ def generateCand():
 				lista[c[10]] = 0
 			if c[9] in ['GOVERNADOR', 'PRESIDENTE']: #adiciona tambem o nome de urna nesses casos
 				lista[c[13]] = c[10]
-			
+	nomeParlamentar = generateNomeParalmentar()
+	lista.update(nomeParlamentar)		
 			
 
 	with open('names.js', 'w') as final:
@@ -78,3 +81,13 @@ def generateDoacoes():
 		if os.path.isfile(arquivo):
 			print 'Getting ' + folder.split('/')[-1]
 			generateDoacao(arquivo)
+
+
+
+def generateNomeParalmentar():
+	'''Gera nomes parlamentares para o nomes.js a partir dos dados do XML da Câmara'''
+	soup = parse(urllib2.urlopen("http://www.camara.gov.br/SitCamaraWS/Deputados.asmx/ObterDeputados"))
+	deputados = {}
+	for d in soup.xpath("//deputado"):
+		deputados[d.xpath('nomeParlamentar')[0].text] = unidecode.unidecode(unicode(d.xpath('nome')[0].text))
+	return deputados

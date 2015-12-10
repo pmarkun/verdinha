@@ -5,7 +5,7 @@ import csvkit, json, os
 from lxml.etree import parse
 import urllib2, unidecode
 
-def generateCand():
+def generateTSECand():
 	'''Gera names.json a partir dos arquivos de candidatura de 2014 na pasta.
 	   http://agencia.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2014.zip
 	'''
@@ -17,12 +17,22 @@ def generateCand():
 		cand = csvkit.reader(cand, encoding='iso-8859-1', delimiter=';')
 		for c in cand:
 			#if c[15] == 'DEFERIDO': #muitas candidaturas ainda nao foram deferidas
-			if c[9] not in ['REMOVER']:
-				lista[c[10]] = 0
+			#if c[9] not in ['REMOVER']:
+			#	lista[unidecode.unidecode(c[10])] = 0
 			if c[9] in ['GOVERNADOR', 'PRESIDENTE']: #adiciona tambem o nome de urna nesses casos
-				lista[c[13]] = c[10]
-	nomeParlamentar = generateNomeParalmentar()
-	lista.update(nomeParlamentar)		
+				lista[unidecode.unidecode(c[10])] = 0
+				lista[c[13]] = unidecode.unidecode(c[10])
+	return lista
+
+def createNames():
+	lista = {}
+	nomesTSE = generateTSECand()
+	nomesCamara = generateCamaraNomeParlamentar()
+	nomesSenado = generateSenadoNomeParlamentar()
+	
+	lista.update(nomesTSE)
+	lista.update(nomesCamara)
+	lista.update(nomesSenado)		
 			
 
 	with open('names.js', 'w') as final:
@@ -84,10 +94,24 @@ def generateDoacoes():
 
 
 
-def generateNomeParalmentar():
+def generateCamaraNomeParlamentar():
 	'''Gera nomes parlamentares para o nomes.js a partir dos dados do XML da Câmara'''
 	soup = parse(urllib2.urlopen("http://www.camara.gov.br/SitCamaraWS/Deputados.asmx/ObterDeputados"))
 	deputados = {}
 	for d in soup.xpath("//deputado"):
-		deputados[d.xpath('nomeParlamentar')[0].text] = unidecode.unidecode(unicode(d.xpath('nome')[0].text))
+		nome_completo = unidecode.unidecode(unicode(d.xpath('nome')[0].text))
+		nome_parlamentar = d.xpath('nomeParlamentar')[0].text
+		deputados[nome_completo] = 0
+		deputados[nome_parlamentar] = nome_completo
 	return deputados
+
+def generateSenadoNomeParlamentar():
+	'''Gera nomes parlamentares para o nomes.js a partir dos dados do XML da Câmara'''
+	soup = parse(urllib2.urlopen("http://legis.senado.leg.br/dadosabertos/senador/lista/atual"))
+	senadores = {}
+	for d in soup.xpath("//Parlamentar/IdentificacaoParlamentar"):
+		nome_completo = unidecode.unidecode(unicode(d.xpath('NomeCompletoParlamentar')[0].text)).upper()
+		nome_parlamentar = d.xpath('NomeParlamentar')[0].text.upper()
+		senadores[nome_completo] = 0
+		senadores[nome_parlamentar] = nome_completo
+	return senadores

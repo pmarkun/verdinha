@@ -15,7 +15,7 @@ class MongoJsonEncoder(json.JSONEncoder):
         if isinstance(obj, (datetime.datetime, datetime.date)):
             return obj.isoformat()
         elif isinstance(obj, ObjectId):
-            return unicode(obj)
+            return str(obj)
         return json.JSONEncoder.default(self, obj)
  
 def jsonify(*args, **kwargs):
@@ -40,9 +40,9 @@ def cifras(valor):
         valor = valor/1000000.0
         valor = int(valor) if round(valor,1).is_integer() else round(valor,1)
         if valor == 1.0:
-            return unicode(valor) + u" milhão"
+            return str(valor) + " milhão"
         else:
-            return unicode(valor) + u" milhões"
+            return str(valor) + " milhões"
     elif valor > 1000:
         valor = valor/1000.0
         valor = int(valor) if round(valor,1).is_integer() else round(valor,1)

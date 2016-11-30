@@ -1,7 +1,7 @@
 {
   "name": "Verdinhas",
   "description": "Análisa a página em busca de candidatos e congressistas e exibe as maiores doações de campanha.",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "permissions": [
     "activeTab",
     "http://*/*"

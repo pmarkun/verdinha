@@ -24,24 +24,24 @@ def busca(nome, ext='html'):
 		if ext == 'json':
 			return jsonify(resultado)
 		else:
-			if not resultado['candidaturas'].has_key('2010'):
+			if '2010' not in resultado['candidaturas']:
 				resultado['candidaturas']['2010'] = {
 					'total' : 0,
 					'outras_doacoes' : 0.0
 				}
 			else:
-				resultado['candidaturas']['2010']['doacoes'] = sorted(resultado['candidaturas']['2010']['doacoes'].iteritems(), key=lambda x: x[1]['valor'], reverse=True)[0:5]
+				resultado['candidaturas']['2010']['doacoes'] = sorted(iter(resultado['candidaturas']['2010']['doacoes'].items()), key=lambda x: x[1]['valor'], reverse=True)[0:5]
 				resultado['candidaturas']['2010']['outras_doacoes'] = float(resultado['candidaturas']['2010']['total'])
 				for r in resultado['candidaturas']['2010']['doacoes']:
 					resultado['candidaturas']['2010']['outras_doacoes'] += -1*float(r[1]['valor'])
 
-			if not resultado['candidaturas'].has_key('2014'):
+			if '2014' not in resultado['candidaturas']:
 				resultado['candidaturas']['2014'] = {
 					'total' : 0,
 					'outras_doacoes' : 0.0
 				}
 			else:
-				resultado['candidaturas']['2014']['doacoes'] = sorted(resultado['candidaturas']['2014']['doacoes'].iteritems(), key=lambda x: x[1]['valor'], reverse=True)[0:5]
+				resultado['candidaturas']['2014']['doacoes'] = sorted(iter(resultado['candidaturas']['2014']['doacoes'].items()), key=lambda x: x[1]['valor'], reverse=True)[0:5]
 				resultado['candidaturas']['2014']['outras_doacoes'] = float(resultado['candidaturas']['2014']['total'])
 				for r in resultado['candidaturas']['2014']['doacoes']:
 					resultado['candidaturas']['2014']['outras_doacoes'] += -1*float(r[1]['valor'])
@@ -82,7 +82,7 @@ def cnpj(cnpj):
 		
 		for r in resultado['candidaturas'][ano]['doacoes']:
 			resultado['candidaturas'][ano]['total'] += resultado['candidaturas'][ano]['doacoes'][r]['valor']
-		resultado['candidaturas'][ano]['doacoes'] = sorted(resultado['candidaturas'][ano]['doacoes'].iteritems(), key=lambda x: x[1]['valor'], reverse=True)[0:5]
+		resultado['candidaturas'][ano]['doacoes'] = sorted(iter(resultado['candidaturas'][ano]['doacoes'].items()), key=lambda x: x[1]['valor'], reverse=True)[0:5]
 		resultado['candidaturas'][ano]['outras_doacoes'] = float(resultado['candidaturas'][ano]['total'])
 		for r in resultado['candidaturas'][ano]['doacoes']:
 			resultado['candidaturas'][ano]['outras_doacoes'] += -1*float(r[1]['valor'])
